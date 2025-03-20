@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from collections import OrderedDict
 #from my_function import create_random_matrix
-from tool_box import *
+from my_tool_box_of_custom_functions import *
 import matplotlib.pyplot as plt
 import math
 import warnings
@@ -11,10 +11,7 @@ import seaborn as sns
 
 def run_this():
   print("initial setup")
-# titanic = sns.load_dataset('titanic')
-# summary(titanic)
-# head(titanic,25)
-# print("numbr of rows in dataframe: ", nrow(titanic))
+
 #----------------------------------------------------------------------- Sample_data creation
 def sample_data_creation():
   global df
@@ -25,7 +22,7 @@ def sample_data_creation():
   df['Binary'] = np.random.choice([0, 1], size=(200,))
   training_data = df
   #return df, training_data
-# -------------------------------Skip user input and let values be initiialized below...
+# -------------------------------let values be initiialized below...
 
 def network_initialization():
   global layer_1_weights, layer_2_weights, layer_3_weights
@@ -45,7 +42,7 @@ def network_initialization():
   layer_2_biases = np.random.rand(num_nodes[1])
   layer_3_bias = np.random.rand(1)
   
-  print("Network Initialized...","\n\n\n\n")
+  print("Network Initialized...","\n")
   print("dim of layer 3 weight: ", layer_3_weights.shape)
 
 # -------------------------------------------------------------------------------FORWARD PASS:
@@ -67,7 +64,7 @@ def forward_pass(dataframe_subset):
     layer_2_preact = (np.dot(layer_1_output,layer_2_weights) + layer_2_biases)
     layer_2_output = relu(layer_2_preact)
     final_preactivation = (np.dot(layer_2_output, layer_3_weights) + layer_3_bias)
-    #........................................there is a bug here because this should be a scalar..
+    #........................................there is a bug somewhere here because this should be a scalar..
     output = sigmoid(final_preactivation) # activation_L is the final output
     print("sigmodoid output is:  ", output)
     output = float(output)
@@ -96,7 +93,7 @@ def forward_pass(dataframe_subset):
     layer_2_activation_cache = np.vstack([layer_2_activation_cache, layer_2_activations])
 
   
-  print("forward_pass successful, vector of expected outputs is: ", a_L, "\n", "\n", "\n")
+  print("forward_pass successful, vector of expected outputs is: ", a_L, "\n",)
   print("after foward pass dimensions of layer_2_matrix are:   ", dim(layer_2_weights))
   return a_L 
 
@@ -183,14 +180,13 @@ def backpropogation(dataframe_subset):  # dataframe_subset is unsupervised
   weight_2_viz = pd.DataFrame(cost_wrt_layer_2_weights)
   weight_1_viz = pd.DataFrame(cost_wrt_layer_1_weights)
 
-  print("BACKPROPOGATION ran successfully and gradients found: !!!!!!!!!!!!!!", "\n\n\n")
-  print("Derivative of loss (DOL) wrt to layer 3 weight: ","\n\n", weight_3_viz, "\n\n\n\n\n\n")
-  print("DOL wrt layer 2: ","\n\n", weight_2_viz, "\n\n\n\n")
-  print("DOL wrt layer 1: ","\n\n", weight_1_viz, "\n\n\n\n")
-  print("DOL wrt layer 3:" , "\n\n", cost_wrt_layer_3_weights, "\n\n\n\n")
+  print("BACKPROPOGATION ran successfully and gradients found: !!!!!!!!!!!!!!", "\n")
+  print("Derivative of loss (DOL) wrt to layer 3 weight: ","\n\n", weight_3_viz, "\n")
+  print("DOL wrt layer 2: ","\n", weight_2_viz, "\n")
+  print("DOL wrt layer 1: ","\n", weight_1_viz, "\n")
+  print("DOL wrt layer 3:" ,"\n", cost_wrt_layer_3_weights, "\n")
 #-------------------------  UPDATE ----------------------------------
 run_this()
-print("this should print if nothing else")
 
 def update():
   learning_rate = float(.002)
@@ -207,12 +203,12 @@ def update():
   layer_2_biases  = layer_2_biases  - (np.array(cost_wrt_layer_2_activations) * learning_rate)
   #layer_3_bias    = layer_3_bias    - cost_wrt_layer_3_activation
   print("update successful: new weights found")
-  print("after updating dimensions of layer_ 1 weights are:  ", dim(layer_1_weights),"\n\n\n\n")
-  print("after updating dimensions of layer_2 weights are: ", dim(layer_2_weights),"\n\n")
-  print("after updating shape of layer_3 weights are: ", dim(layer_3_weights),"\n\n")
+  print("after updating dimensions of layer_ 1 weights are:  ", dim(layer_1_weights),"\n")
+  print("after updating dimensions of layer_2 weights are: ", dim(layer_2_weights),"\n")
+  print("after updating shape of layer_3 weights are: ", dim(layer_3_weights),"\n")
   print("layer_3 weights: ", layer_3_weights, "\n\n")
-  print("after updating dimensions of layer_1 biases are:  ", dim(layer_1_biases),"\n\n\n\n")
-  print("afte updating dimensions of layer_2 biases are: ", dim(layer_2_biases),"\n\n\n\n")
+  print("after updating dimensions of layer_1 biases are:  ", dim(layer_1_biases),"\n")
+  print("afte updating dimensions of layer_2 biases are: ", dim(layer_2_biases),"\n")
   return layer_1_weights, layer_2_weights, layer_3_weights, layer_1_biases, layer_2_biases
 #--------------------------------------------------------- testing.....
 
@@ -222,13 +218,13 @@ data_for_forward_pass = subset_1.drop("Binary", axis = 1) # <- data without labe
 label = df['Binary']
 loss_cache = []
 
-epochs = int(3)
+epochs = int(3000)
 
 network_initialization()
 # forward_pass(data_for_forward_pass)
-# print("\n\n\n\n", "first pass complete")
+# print("first pass complete")
 # forward_pass(data_for_forward_pass)
-# print("\n\n\n\n","second pass complete")
+# print("second pass complete")
 
 
 
